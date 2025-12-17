@@ -152,9 +152,7 @@ The convergence issues result mainly from the impact ionization model. If we swi
 
 - Main thing to remember: Field distribution, recombination rates & current for the other recombination processes are all still correct.
 - Calculate total current with joint simulation and analytical approach
-$$
-I_{total} = qL_x \int_{-L_z/2}^{L_z/2} \int_{-L_y/2}^{L_y/2} (R_{net,sim}+R_{II,calc})dy dz,
-$$
+$$\small I_{total} = qL_x \int_{-L_z/2}^{L_z/2} \int_{-L_y/2}^{L_y/2} (R_{net,sim}+R_{II,calc})dy dz,$$
 using the equations shown earlier & plugging in simulated quantities
 $R_{II,calc} = -\alpha_{n,calc} \frac{\left|\mathbf{J}_{n,sim}\right|}{q} -\alpha_{p,calc} \frac{\left|\mathbf{J}_{p,sim}\right|}{q}, \ \alpha_{n,p,calc} = \alpha^{\infty}_{n,p} e^{-\left(\frac{F^{crit}_{n,p}}{F_{sim}}\right)^{\beta_{n,p}}}$
 
