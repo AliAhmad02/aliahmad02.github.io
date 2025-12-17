@@ -1,0 +1,79 @@
+[
+  {
+    "objectID": "presentation.html#recap-from-last-time",
+    "href": "presentation.html#recap-from-last-time",
+    "title": "Escape from convergence hell",
+    "section": "Recap from last time",
+    "text": "Recap from last time\n\nSimulation workflow: Electrical, optical, electrical.\nMain result of simulation: The device works almost perfectly as an APD with virtually no dark current.\nSo how can we make it realistic…"
+  },
+  {
+    "objectID": "presentation.html#understanding-the-leakage-current",
+    "href": "presentation.html#understanding-the-leakage-current",
+    "title": "Escape from convergence hell",
+    "section": "Understanding the leakage current",
+    "text": "Understanding the leakage current\nAs we know, a p-i-n junction has a depletion region with a potential barrier for carriers, which increases with increasing reverse bias. So, how come we see current at reverse bias in the lab?\n\nAnswer: Generation/recombination processes! Carriers are generated in the depletion region and swept away by the strong field. The most important of these are:\n\nSchockley-Read-Hall recombination.\nBand-to-band tunneling.\nImpact ionization."
+  },
+  {
+    "objectID": "presentation.html#shockley-read-hall-recombination",
+    "href": "presentation.html#shockley-read-hall-recombination",
+    "title": "Escape from convergence hell",
+    "section": "Shockley-Read-Hall recombination",
+    "text": "Shockley-Read-Hall recombination\nIn practice, any real semiconductor has impurities. This has the following implications:\n\nBreaking of the crystal’s periodicity → states inside gap.\nDoping vs impurities? Hydrogenic states vs deep defects.\nSRH states can capture/emit electron/holes.\nTotal SRH rate depends on \\(E_{T}\\). \\[\n\\begin{aligned}\n&\\hspace{-9em}R_{srh} = \\frac{np-n_i^2}{\\tau_p(n+n_1)+\\tau_n(p+p_1)}\n\\end{aligned}\n\\]\nDoping & field corrections.\nLimitation: Only a single impurity level."
+  },
+  {
+    "objectID": "presentation.html#band-to-band-tunneling",
+    "href": "presentation.html#band-to-band-tunneling",
+    "title": "Escape from convergence hell",
+    "section": "Band-to-band tunneling",
+    "text": "Band-to-band tunneling\n\n\n\n\nHow can we go from VB→CB? How does this generate current?\nRemember from QM that tunneling probability has proportionality \\[\nT \\propto e^{-2\\kappa W}\n\\]\nTunneling distance as a function of reverse bias.\nDominates at high field strengths.\nBBT recombination rate (Kane, 1961) \\[R_{BBT}=A_{BBT}\\left(\\frac{F}{1 \\text{ V/cm}}\\right)^\\sigma e^{-\\frac{B_{BBT}}{F}}\\]"
+  },
+  {
+    "objectID": "presentation.html#impact-ionization",
+    "href": "presentation.html#impact-ionization",
+    "title": "Escape from convergence hell",
+    "section": "Impact ionization",
+    "text": "Impact ionization\nWhen subject to a strong field, carriers possess enough energy to excite other carriers across the bandgap, creating EH-pairs that can participate in further impact ionization events, leading to carrier multiplication.\nImpact ionization is a pure generation process, with a rate \\[\nR_{II} = -\\alpha_n \\frac{\\left|\\mathbf{J_n}\\right|}{q} -\\alpha_p \\frac{\\left|\\mathbf{J_p}\\right|}{q},\n\\] where the impact ionization coefficients are given by Selberherr’s model \\[\n\\alpha_{n,p} = \\alpha^{\\infty}_{n,p} \\times \\exp{\\left[-\\left(\\frac{F^{crit}_{n,p}}{F}\\right)^{\\beta_{n,p}}\\right]}\n\\] in units of inverse distance."
+  },
+  {
+    "objectID": "presentation.html#so-what-was-the-issue",
+    "href": "presentation.html#so-what-was-the-issue",
+    "title": "Escape from convergence hell",
+    "section": "So, what was the issue?",
+    "text": "So, what was the issue?\n\nAll models responsible for dark current were already turned on.\nHowever: All parameters in BBT model were set to 0 by default.\n\nLesson: Remember to actually check all the parameters for all the physical models! Don’t assume that there are sensible defaults for everything.\nInitial estimates for the BBT parameters can be generated using the theory from (Keldysh & Kane, 1961) \\[\n\\begin{aligned}\nA_{BBT}&=\\frac{g\\pi\\sqrt{m_r}(qE_0)^2}{9h^2\\sqrt{E_g}}\\\\\nB_{BBT}&=\\frac{\\pi^2\\sqrt{m_r}E_g^{3/2}}{qh}\\\\\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "presentation.html#getting-stuck-and-asking-for-help",
+    "href": "presentation.html#getting-stuck-and-asking-for-help",
+    "title": "Escape from convergence hell",
+    "section": "Getting stuck and asking for help",
+    "text": "Getting stuck and asking for help\nWith all the physical models set up correctly, it was time for an extended stay in convergence hell, which went like this\n\nTweak material/model/convergence parameter.\nRun the simulation, wait half an hour for it to crash.\nRepeat 7 billion times.\nGive up, contact EDR&Medeso at ansys@edrmedeso.com.\n\n\nHow the support request went\n\nSupport person also got stuck in convergence hell for a week and had to contact ANSYS (very fair).\nI came up with an alternative solution to the problem in the meantime.\nOverall: Quite pleasant—and you’ll likely have a smoother experience!"
+  },
+  {
+    "objectID": "presentation.html#the-escape-strategy",
+    "href": "presentation.html#the-escape-strategy",
+    "title": "Escape from convergence hell",
+    "section": "The escape strategy",
+    "text": "The escape strategy\nThe convergence issues result mainly from the impact ionization model. If we switch it off, we can easily converge even beyond breakdown. Naturally, the high-field reverse bias IV-curve depends strongly on this model. So how can we get a correct current with the model turned off?\n\n\nMain thing to remember: Field distribution, recombination rates & current for the other recombination processes are all still correct.\nCalculate total current with joint simulation and analytical approach \\[\nI_{total} = qL_x \\int_{-L_z/2}^{L_z/2} \\int_{-L_y/2}^{L_y/2} (R_{net,sim}+R_{II,calc})dy dz,\n\\] using the equations shown earlier & plugging in simulated quantities \\(R_{II,calc} = -\\alpha_{n,calc} \\frac{\\left|\\mathbf{J}_{n,sim}\\right|}{q} -\\alpha_{p,calc} \\frac{\\left|\\mathbf{J}_{p,sim}\\right|}{q}, \\ \\alpha_{n,p,calc} = \\alpha^{\\infty}_{n,p} e^{-\\left(\\frac{F^{crit}_{n,p}}{F_{sim}}\\right)^{\\beta_{n,p}}}\\)"
+  },
+  {
+    "objectID": "presentation.html#first-results-from-joint-simulation-analytical-approach",
+    "href": "presentation.html#first-results-from-joint-simulation-analytical-approach",
+    "title": "Escape from convergence hell",
+    "section": "First results from joint simulation-analytical approach",
+    "text": "First results from joint simulation-analytical approach\n\nPerform sanity check. Can we reproduce the simulated current?\nCompare current with and without impact ionization."
+  },
+  {
+    "objectID": "presentation.html#breaking-the-results-down-further",
+    "href": "presentation.html#breaking-the-results-down-further",
+    "title": "Escape from convergence hell",
+    "section": "Breaking the results down further",
+    "text": "Breaking the results down further\n\n\n\nJoint analytical-simulation approach allows us to calculate individual current contributions easily.\n\n\n\n                            \n                                            \n\n\n\n\n\n\nMain simulation parameters\n\n\n\n\n\n\nParameter\nValue\n\n\n\n\n\\(\\alpha_n^{(\\infty)}\\)\n\\(2.99\\times10^5\\text{ 1/cm}\\)\n\n\n\\(\\alpha_p^{(\\infty)}\\)\n\\(2.22\\times10^5\\text{ 1/cm}\\)\n\n\n\\(\\beta_n\\)\n\\(1.6\\)\n\n\n\\(\\beta_p\\)\n\\(1.75\\)\n\n\n\\(F_{crit, n}\\)\n\\(6.85\\times10^5\\text{ V/cm}\\)\n\n\n\\(F_{crit, p}\\)\n\\(6.57\\times10^5\\text{ V/cm}\\)\n\n\n\\(A_{BBT}\\)\n\\(1.782\\times10^7\\text{ V/cm}\\)\n\n\n\\(B_{BBT}\\)\n\\(1.541\\times10^{20} \\mathrm{ 1/cm^3 s}\\)\n\n\n\\(E_{offset}\\)\n\\(0.3\\text{ eV}\\)"
+  },
+  {
+    "objectID": "presentation.html#final-results",
+    "href": "presentation.html#final-results",
+    "title": "Escape from convergence hell",
+    "section": "Final results",
+    "text": "Final results\nChecking impact ionization model and fitting dark IV-curve"
+  }
+]
